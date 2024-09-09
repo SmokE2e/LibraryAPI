@@ -5,7 +5,6 @@ using LibraryAPI.Repositories;
 
 namespace LibraryAPI.Services
 {
-    // Реализация интерфейса сервиса для работы с авторами
     public class AuthorService : IAuthorService
     {
         private readonly IAuthorRepository _authorRepository;
@@ -17,12 +16,12 @@ namespace LibraryAPI.Services
 
         public async Task<IEnumerable<Author>> GetAllAuthorsAsync()
         {
-            return await _authorRepository.GetAllAuthorsAsync();
+            return await _authorRepository.GetAllAsync();
         }
 
         public async Task<Author> GetAuthorByIdAsync(int id)
         {
-            return await _authorRepository.GetAuthorByIdAsync(id);
+            return await _authorRepository.GetByIdAsync(id);
         }
 
         public async Task AddAuthorAsync(Author author)
@@ -37,7 +36,11 @@ namespace LibraryAPI.Services
 
         public async Task DeleteAuthorAsync(int id)
         {
-            await _authorRepository.DeleteAuthorAsync(id);
+            var author = await _authorRepository.GetByIdAsync(id);
+            if (author != null)
+            {
+                await _authorRepository.DeleteAuthorAsync(author);
+            }
         }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId)
@@ -46,3 +49,4 @@ namespace LibraryAPI.Services
         }
     }
 }
+

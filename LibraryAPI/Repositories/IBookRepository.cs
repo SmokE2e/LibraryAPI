@@ -4,14 +4,13 @@ using LibraryAPI.Models;
 
 namespace LibraryAPI.Repositories
 {
-    // Интерфейс репозитория для работы с книгами
     public interface IBookRepository
     {
-        Task<IEnumerable<Book>> GetAllBooksAsync();  // Получение всех книг
-        Task<Book> GetBookByIdAsync(int id);  // Получение книги по Id
-        Task<Book> GetBookByISBNAsync(string isbn);  // Получение книги по ISBN
-        Task AddBookAsync(Book book);  // Добавление новой книги
-        Task UpdateBookAsync(Book book);  // Обновление существующей книги
-        Task DeleteBookAsync(int id);  // Удаление книги
+        Task<IEnumerable<Book>> GetAllBooksAsync(); 
+        Task<Book> GetBookByIdAsync(int id); 
+        Task<Book> GetBookByISBNAsync(string isbn);  
+        Task AddBookAsync(Book book);  
+        Task UpdateBookAsync(Book book);  
+        Task DeleteBookAsync(int id);  
     }
 }

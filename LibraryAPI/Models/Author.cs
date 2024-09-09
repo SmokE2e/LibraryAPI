@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LibraryAPI.Models
 {
-    // Модель для представления автора в системе
     public class Author
     {
-        // Идентификатор автора
         public int Id { get; set; }
-
-        // Имя автора
-        public string FirstName { get; set; }
-
-        // Фамилия автора
-        public string LastName { get; set; }
-
-        // Дата рождения автора
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+        public string Country { get; set; } = string.Empty;
 
-        // Страна, откуда родом автор
-        public string Country { get; set; }
-
-        // Связь с моделью книги (один автор может иметь много книг)
-        public ICollection<Book> Books { get; set; }
+        [JsonIgnore]
+        public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

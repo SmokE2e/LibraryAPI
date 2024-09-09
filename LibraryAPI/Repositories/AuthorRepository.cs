@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAPI.Data;
+using LibraryAPI.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using LibraryAPI.Data;
-using LibraryAPI.Models;
 
 namespace LibraryAPI.Repositories
 {
-    // Реализация интерфейса репозитория для работы с авторами
     public class AuthorRepository : IAuthorRepository
     {
         private readonly LibraryContext _context;
@@ -17,47 +16,46 @@ namespace LibraryAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Author>> GetAllAuthorsAsync()
+        public async Task<IEnumerable<Author>> GetAllAsync()
         {
-            // Возвращает всех авторов
             return await _context.Authors.ToListAsync();
         }
 
-        public async Task<Author> GetAuthorByIdAsync(int id)
+        public async Task<Author> GetByIdAsync(int id)
         {
-            // Возвращает автора по Id
             return await _context.Authors.FindAsync(id);
+        }
+
+        public async Task<Author> GetByNameAsync(string firstName, string lastName)
+        {
+            return await _context.Authors
+                .FirstOrDefaultAsync(a => a.FirstName == firstName && a.LastName == lastName);
         }
 
         public async Task AddAuthorAsync(Author author)
         {
-            // Добавляет нового автора
             await _context.Authors.AddAsync(author);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAuthorAsync(Author author)
         {
-            // Обновляет информацию об авторе
             _context.Authors.Update(author);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAuthorAsync(int id)
+        public async Task DeleteAuthorAsync(Author author)
         {
-            // Удаляет автора из базы данных
-            var author = await _context.Authors.FindAsync(id);
-            if (author != null)
-            {
-                _context.Authors.Remove(author);
-                await _context.SaveChangesAsync();
-            }
+            _context.Authors.Remove(author);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId)
         {
-            // Возвращает все книги автора по его Id
             return await _context.Books.Where(b => b.AuthorId == authorId).ToListAsync();
         }
     }
 }
+
+
+

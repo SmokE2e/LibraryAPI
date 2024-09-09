@@ -24,22 +24,21 @@ namespace LibraryAPI
 
         public IConfiguration Configuration { get; }
 
-        // Этот метод вызывается во время выполнения. Используйте этот метод для добавления сервисов в контейнер DI.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Регистрация контекста базы данных с использованием строки подключения из конфигурации
+           
             services.AddDbContext<LibraryContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            // Регистрация репозиториев
+       
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-            // Регистрация сервисов
+           
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IAuthorService, AuthorService>();
 
-            // Настройка аутентификации с использованием JWT
+           
             var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
             services.AddAuthentication(x =>
             {
@@ -59,16 +58,15 @@ namespace LibraryAPI
                 };
             });
 
-            // Настройка авторизации policy-based
+          
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
             });
 
-            // Настройка контроллеров и валидации
             services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            // Настройка Swagger для генерации документации API
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Library API", Version = "v1" });
@@ -95,7 +93,6 @@ namespace LibraryAPI
             });
         }
 
-        // Этот метод вызывается во время выполнения. Используйте этот метод для настройки конвейера HTTP-запросов.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -113,12 +110,12 @@ namespace LibraryAPI
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseAuthentication();  // Добавляем аутентификацию в конвейер обработки запросов
-            app.UseAuthorization();   // Добавляем авторизацию в конвейер обработки запросов
+            app.UseAuthentication();  
+            app.UseAuthorization();   
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();  // Маршрутизация контроллеров
+                endpoints.MapControllers();  
             });
         }
     }

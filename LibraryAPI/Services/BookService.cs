@@ -5,7 +5,6 @@ using LibraryAPI.Repositories;
 
 namespace LibraryAPI.Services
 {
-    // Реализация интерфейса сервиса для работы с книгами
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;

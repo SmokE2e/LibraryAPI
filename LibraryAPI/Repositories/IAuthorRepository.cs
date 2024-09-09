@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using LibraryAPI.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using LibraryAPI.Models;
 
 namespace LibraryAPI.Repositories
 {
-    // Интерфейс репозитория для работы с авторами
     public interface IAuthorRepository
     {
-        Task<IEnumerable<Author>> GetAllAuthorsAsync();  // Получение всех авторов
-        Task<Author> GetAuthorByIdAsync(int id);  // Получение автора по Id
-        Task AddAuthorAsync(Author author);  // Добавление нового автора
-        Task UpdateAuthorAsync(Author author);  // Обновление информации об авторе
-        Task DeleteAuthorAsync(int id);  // Удаление автора
-        Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId);  // Получение всех книг по автору
+        Task<IEnumerable<Author>> GetAllAsync();
+        Task<Author> GetByIdAsync(int id);
+        Task<Author> GetByNameAsync(string firstName, string lastName);
+        Task AddAuthorAsync(Author author); 
+        Task UpdateAuthorAsync(Author author); 
+        Task DeleteAuthorAsync(Author author); 
+        Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId);
     }
 }
+
